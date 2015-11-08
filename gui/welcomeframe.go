@@ -3,6 +3,7 @@ package gui
 import (
 	"EnCloud/go-gtk/gtk"
 	"EnCloud/keygen"
+	"EnCloud/logger"
 	"EnCloud/validator"
 )
 
@@ -36,6 +37,7 @@ func WelcomeFrame() gtk.IWidget {
 				txtMessage.SetText("Success! :)")
 			} else {
 				txtMessage.SetText("No Dice. :(")
+				logger.Log("Failed to generate keys.")
 			}
 		} else {
 			txtMessage.SetText("Invalid E-mail Address.")
@@ -46,6 +48,10 @@ func WelcomeFrame() gtk.IWidget {
 
 	vbox.Add(table)
 	page.Add(vbox)
+
+	if r := recover(); r != nil {
+		logger.Log("Recovered in welcomeframe.go")
+	}
 
 	return page
 }
